@@ -11,6 +11,7 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + "-" + Date.now() + ".xml");
   }
 });
+
 const upload = multer({
   storage: storage
 }).single("fileUpload");
@@ -20,7 +21,9 @@ require("dotenv").config({ path: "./config" });
 const app = express();
 // app.use(express.static(path.resolve(__dirname + "/upload")));
 app.use(cors());
-
+app.get("/", (req, res) => {
+  res.send("Congratulation, you have reached MAD Server");
+});
 app.post("/uploadxml", upload, (req, res) => {
   var spawn = require("child_process").spawn;
   var process = spawn("python", [
